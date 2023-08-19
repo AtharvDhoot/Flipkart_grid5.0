@@ -173,6 +173,8 @@ class TrendingItemFinderTool extends Tool {
       return "Could not find any products requested.";
     }
 
+    // here
+
     requestedProducts.sortValues("trend_score", {
       ascending: false,
       inplace: true,
