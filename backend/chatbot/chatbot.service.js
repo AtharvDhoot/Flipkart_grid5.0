@@ -66,8 +66,8 @@ async function ChatBot(req, res, next) {
    Give all your responses in markdown.
 
    Always use image syntax for links:
-   DO: ![alt-text](https://image.url)
-   DO NOT: [alt-text](https://image.url)
+   DO: ![alt-text](url)
+   DO NOT: [alt-text](url)
   `,
       },
     });
