@@ -4,6 +4,7 @@ const helmet = require("helmet");
 
 const { initialiseDatabaseConnection } = require("./db/init");
 const { logger } = require("./logs/logger_config");
+const { chatbotRouter } = require("./chatbot");
 
 const app = express();
 const port = process.env.PORT || 2000;
@@ -20,6 +21,8 @@ app.use(logger.defaultLogger);
 if (process.env.NODE_ENV !== "production") app.use(logger.devLogger);
 
 app.disable("x-powered-by");
+
+app.use("/api/v1", chatbotRouter);
 
 app.use(logger.errorLogger);
 
