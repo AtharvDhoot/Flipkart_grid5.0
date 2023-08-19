@@ -4,27 +4,44 @@ const { initializeAgentExecutorWithOptions } = require("langchain/agents");
 const { ChatOpenAI } = require("langchain/chat_models/openai");
 const { ConversationSummaryBufferMemory } = require("langchain/memory");
 
-const memory = new ConversationSummaryBufferMemory({
-  llm: new ChatOpenAI({
-    modelName: "gpt-3.5-turbo-0613",
-    temperature: 0,
-    openAIApiKey: process.env.OPEN_AI_KEY,
-  }),
-  memoryKey: "chat_history",
-  returnMessages: true,
-});
+const sessions = {};
+const tools = [new TrendingItemFinderTool()];
+
+async function clearSession(req, res, next) {
+  const { sess_id } = req.body;
+
+  sessions[sess_id] = null;
+
+  res.value = null;
+  next();
+}
 
 async function ChatBot(req, res, next) {
-  const input = req.input;
+  const { input, sess_id } = req.body;
 
+  console.log("IHNPUT::: ", input);
   try {
+    let memory;
+    if (sessions[sess_id]) {
+      memory = sessions[sess_id];
+    } else {
+      memory = new ConversationSummaryBufferMemory({
+        llm: new ChatOpenAI({
+          modelName: "gpt-3.5-turbo-0613",
+          temperature: 0,
+          openAIApiKey: process.env.OPEN_AI_KEY,
+        }),
+        memoryKey: "chat_history",
+        returnMessages: true,
+      });
+      sessions[sess_id] = memory;
+    }
+
     const chat = new ChatOpenAI({
       modelName: "gpt-3.5-turbo-0613",
       temperature: 0,
       openAIApiKey: process.env.OPEN_AI_KEY,
     });
-
-    const tools = [new TrendingItemFinderTool()];
 
     const executor = await initializeAgentExecutorWithOptions(tools, chat, {
       agentType: "openai-functions",
@@ -45,16 +62,22 @@ async function ChatBot(req, res, next) {
   
    Do not deviate the conversation away from apparel/fashion. If the user talks about
    something else remind them that you are just an apparel chat bot and will only talk about that.
+
+   Give all your responses in markdown.
+
+   Always use image syntax for links:
+   DO: ![alt-text](https://image.url)
+   DO NOT: [alt-text](https://image.url)
   `,
       },
     });
 
-    const respose = await executor.call({
+    const response = await executor.call({
       input: input,
     });
-
-    res.value = respose.output;
-    next();
+    const output = response.output;
+    console.log("INITIALISATION DONE>>>", output);
+    return res.json({ output });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
@@ -64,4 +87,5 @@ async function ChatBot(req, res, next) {
 
 module.exports = {
   ChatBot,
+  clearSession,
 };

@@ -169,6 +169,10 @@ class TrendingItemFinderTool extends Tool {
 
     const requestedProducts = dfd.query(mask);
 
+    if (requestedProducts.shape[0] == 0) {
+      return "Could not find any products requested.";
+    }
+
     requestedProducts.sortValues("trend_score", {
       ascending: false,
       inplace: true,

@@ -114,12 +114,7 @@ function CartTile({
             .map((x, y) => x + y)
             .map((x) => {
               // eslint-disable-next-line eqeqeq
-              if (quantity == x)
-                return (
-                  <option selected key={x}>
-                    {x}
-                  </option>
-                );
+              if (quantity == x) return <option key={x}>{x}</option>;
               return <option key={x}>{x}</option>;
             })}
         </select>

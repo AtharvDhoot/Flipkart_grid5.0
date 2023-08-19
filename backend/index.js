@@ -10,8 +10,15 @@ const { chatbotRouter } = require("./chatbot");
 const app = express();
 const port = process.env.PORT || 2000;
 
+const whitelist = ["http://localhost:3000", "http://dfglugjhgl.local:3000"];
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || origin === undefined) {
+      callback(null, true);
+    } else {
+      callback(new Error(`Not allowed by CORS origin ${origin}`));
+    }
+  },
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
