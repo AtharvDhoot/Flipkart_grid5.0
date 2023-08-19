@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+require("dotenv").config();
 
 const { initialiseDatabaseConnection } = require("./db/init");
 const { logger } = require("./logs/logger_config");
