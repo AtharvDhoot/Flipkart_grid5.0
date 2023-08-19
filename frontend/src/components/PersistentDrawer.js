@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
@@ -29,15 +29,31 @@ const PersistentDrawer = () => {
     setShowCart(!showCart);
   };
 
+  const scrollContainerRef = useRef();
+
+  // useEffect(() => {
+  //   function scrollToBottom() {
+  //     const container = document.querySelector(".drawer-content");
+  //     container.scrollTop = container.scrollHeight;
+
+  //     console.log("scrolling to bottom")
+  //   }
+
+  //   setInterval(scrollToBottom, 200);
+  // });
+
   return (
     <div>
       <div className="drawer lg:drawer-open">
         <input id="drawer" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content px-6 pb-6 pt-6 h-screen">
+        <div
+          className="drawer-content px-6 pb-6 pt-6 h-full overflow-hidden"
+          ref={scrollContainerRef}
+        >
           <ToggleButton />
           <div className="bg-white rounded-3xl h-[95%] lg:h-full">
             <div className="grid md:grid-cols-12 h-full">
-              <div className="md:col-span-9 2xl:col-span-10">
+              <div className="md:col-span-12 2xl:col-span-12">
                 <div className="h-full md:border-r-2">
                   <div className="flex bg-white rounded-3xl">
                     <div className="flex w-full justify-between">
@@ -80,16 +96,19 @@ const PersistentDrawer = () => {
                       </div>
                     </div>
                   </div>
-                  <Chat showCart={showCart} />
+                  <Chat
+                    showCart={showCart}
+                    // scrollContainerRef={scrollContainerRef}
+                  />
                 </div>
               </div>
-              <div
+              {/* <div
                 className={`bg-neutral md:rounded-r-3xl md:col-span-3 2xl:col-span-2 mt-4 md:mt-0 ${
                   showCart ? "block" : "hidden"
                 } md:block overflow-y-scroll`}
               >
                 <Cart />
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import MicIcon from "@mui/icons-material/Mic";
@@ -17,17 +17,41 @@ const Chat = ({ showCart }) => {
 
   const [sessId, setSessId] = useState();
 
+  const scrollContainerRef = useRef();
+
+  const addNewMessage = (message) => {
+    // const contentDiv = scrollContainerRef.current;
+    setMessages((oldMessages) => {
+      const msgs = [...oldMessages];
+      msgs.push(message);
+
+      return msgs;
+    });
+  };
+
   useEffect(() => {
     setSessId(generateRandomString(30));
   }, []);
 
+  useEffect(() => {
+    function scrollToBottom() {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTop =
+          scrollContainerRef.current.scrollHeight;
+      }
+    }
+
+    scrollToBottom();
+  }, [messages, scrollContainerRef]);
+
   return (
     <div
-      className={`flex flex-col justify-between h-[80%] hd:h-[85%] md:!h-[95%] ${
+      className={`flex relative h-full flex-col justify-between ${
         showCart ? "hidden" : ""
       }`}
+      ref={scrollContainerRef}
     >
-      <div className="flex place-content-center place-items-center h-full">
+      <div className="flex place-content-center place-items-center overflow-hidden mb-24">
         <div className="flex flex-col h-[60%] w-full justify-center gap-4 md:gap-8">
           {chatStarted ? (
             messages.map((msg, index) => {
@@ -76,19 +100,11 @@ const Chat = ({ showCart }) => {
               ✨Ask away all your fashion queries or shop for something
             </h1>
           )}
-
-          <div className="chat chat-start hidden">
-            <div className="chat-bubble">
-              It's over Anakin, <br />I have the high ground.
-            </div>
-          </div>
-          <div className="chat chat-end hidden">
-            <div className="chat-bubble">You underestimate my power!</div>
-          </div>
         </div>
       </div>
+
       <form
-        className="grid place-items-end mb-[5%] mx-4"
+        className="absolute bottom-20 rigth-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2 md:pl-2 md:w-[calc(100%-.5rem)]"
         onSubmit={async (e) => {
           e.preventDefault();
 
@@ -97,14 +113,9 @@ const Chat = ({ showCart }) => {
           const userMsg = inputField.value;
           inputField.value = "";
 
-          setMessages((oldMessages) => {
-            const msgs = [...oldMessages];
-            msgs.push({
-              isHuman: true,
-              content: userMsg,
-            });
-
-            return msgs;
+          addNewMessage({
+            isHuman: true,
+            content: userMsg,
           });
 
           console.log("SESS ID: ", sessId);
@@ -124,24 +135,13 @@ const Chat = ({ showCart }) => {
 
           const output = (await response.json()).output;
 
-          setMessages((oldMessages) => {
-            const msgs = [...oldMessages];
-            msgs.push({
-              isHuman: false,
-              content: output,
-            });
-
-            return msgs;
+          addNewMessage({
+            isHuman: false,
+            content: output,
           });
-          // console.log(
-          //   response.body
-          //     .getReader()
-          //     .read()
-          //     .then((e) => e.value)
-          // );
         }}
       >
-        <div className="flex w-full gap-4">
+        <div className="flex gap-4 w-full">
           <button className="btn btn-square btn-outline">
             <UploadFileIcon />
           </button>
@@ -153,7 +153,7 @@ const Chat = ({ showCart }) => {
             type="text"
             placeholder="Start Typing"
             defaultValue=""
-            className="input input-bordered w-full text-black !bg-neutral-200"
+            className="input w-full input-bordered text-black !bg-neutral-200"
           />
           <button className="btn btn-square btn-outline !bg-primary">
             <SendIcon className="text-white fill-white" />
