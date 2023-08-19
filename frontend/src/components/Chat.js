@@ -13,10 +13,10 @@ const Chat = ({ showCart }) => {
     >
       <div className="flex place-content-center place-items-center h-full">
         <div className="flex flex-col h-[60%] w-full justify-center gap-16 md:gap-36">
-          <h1 className="text-2xl text-black font-semibold text-center">
-            Fashion
+          <h1 className="text-2xl text-base-100 font-semibold text-center">
+            ✨Ask away all your fashion queries or shop for something
           </h1>
-          <div className="grid grid-cols-2 justify-center place-items-center gap-4">
+          {/* <div className="grid grid-cols-2 justify-center place-items-center gap-4">
             <PromptTile
               title="Prompt 1"
               desc="Desc 1"
@@ -37,7 +37,7 @@ const Chat = ({ showCart }) => {
               desc="Desc 1"
               className="place-self-start"
             />
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="grid place-items-end ">
