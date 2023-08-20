@@ -63,9 +63,11 @@ Then we considered scraping the web version of Instagram. We knew that Instagram
 
 We found out that running scraping accounts of different proxies will help with the situtation but we had neither the time, nor the financial resources to setup a multi-proxy scraping solution. So we found a company called [Lamdava](https://lamadava.com/), which has setup their proxy based scraping solution and allows access to it through an API.
 
+Other sources of latest trends data, like Pintrest, fashion blogs etc. could also be fed into the system. However for this proof-of-concept we decided to stick with just Instagram as the source for our trends data.
+
 ### What to Scrape?
 
-Now that we had the capability to obtain data from Instagram, we had to decide what exactly to scrape. We researched online for top fashion related hashtags, and top fashion influencers (mostly from India, some foreigners) and decided to scrape images from them.
+Now that we had the capability to obtain data from Instagram, we had to decide what exactly to scrape. We made a curated list of top fashion related hashtags, and top fashion influencers and decided to scrape images from them.
 
 We scraped the current top 27 posts for each hashtag, and most recent 33 posts for each influencer. For video posts and reels in our results, we took the thumbnail image instead of the video file.
 
@@ -91,6 +93,8 @@ We used the following services from Google Cloud's [Vision AI Platform](https://
 - Vision product search: Used for searching for similar products. We fed this system cropped fashion objects which were generated using the output of the object localization service. This was utilized to get top 5 similar items in store dataset for each item in the scraped images
 
 We used the output similarity score from the product search service to calculated trend score for each of the products in the dataset.
+
+This was our first time using a major cloud platform, which helped us learn a lot about the various tools and services provided by them. Apart from the services mentioned above, we used storage buckets, compute engines, and learned about cloud cost management.
 
 ## Personalized Recommendation System
 
@@ -153,3 +157,21 @@ It was calcualted like this:
 It is a sort of manual, time-aware collaborative filtering method - what customers with similar purchase interests were purchased in the past week - so it includes trend information as well
 ## GPT Integration
 
+So we obvioiusly used OpenAI chat based GPT models. We tried both `gpt-3.5-turbo-0613` and `gpt-4-0613` but settled with `gpt-3.5-turbo-0613` because of its higher speed, and lower cost benefits.
+
+We read up OpenAI's docs for tips on writing great prompts and using their models to call functions. Eventually we came up with the following solution:
+
+- Have the AI chat with the user to identify what types of items the user is looking to purchase
+- When the AI is done identifying what types of items the user is looking to purchase, it will call a function with that information as its arguments
+- Another AI model in instantiated, in the backend, by that function. This new AI chooses the most appropriate filters based on the information provided to it by the user-facing AI model. These filters are given out by the AI as a JSON object with a schema that we defined.
+- These filters are then used to query the store dataset for items.
+- These filtered out items are then sorted in descending order based on their `purchasability` score.
+- The top purchasable items among the filtered items (upto, say, 5) are then returned by the function, to the user-facing AI, which then displays them to the user.
+
+`purchasability` of each item is calculated as follows:
+
+- `purchasability[i] = trend_score[i] + (is_recommended_for_requesting_user[i] ? 1 : 0)`
+
+### LangChain
+
+Implementing all these interactions between multiple LLMs, having them call function which interact with the store data, and more is simplified a bit by using [LangChain](https://github.com/hwchase17/langchainjs). It is a library that assists in developing LLM based apps.

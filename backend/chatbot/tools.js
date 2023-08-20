@@ -217,13 +217,7 @@ class TrendingItemFinderTool extends Tool {
       inplace: true,
     });
 
-    requestedProducts.print();
-
-    // danfo.toCSV(requestedProducts, { filePath: "./out.csv" });
-
-    // requestedProducts.print();
     const sortedProductIds = requestedProducts["product_code"].dropDuplicates();
-    // console.log(sortedProductIds.$index);
     const topProductIndices = [];
     let counter = 0;
     for (const i of sortedProductIds.$index) {
