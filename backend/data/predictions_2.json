@@ -1,0 +1,242 @@
+{
+  "4d6f477d8c1a0df0b289baf251882e803a5ebdae09e1d422e54d1eff75aee193": [
+    {
+      "article_id": "573085020",
+      "recommendation_score": "0.5456573730037986"
+    },
+    {
+      "article_id": "637673005",
+      "recommendation_score": "0.5065640388671813"
+    },
+    {
+      "article_id": "108775015",
+      "recommendation_score": "0.501484966929987"
+    },
+    {
+      "article_id": "565379001",
+      "recommendation_score": "0.49990216558531153"
+    },
+    {
+      "article_id": "687424002",
+      "recommendation_score": "0.49339811168763503"
+    },
+    {
+      "article_id": "688873001",
+      "recommendation_score": "0.4892012135583231"
+    },
+    {
+      "article_id": "399256001",
+      "recommendation_score": "0.48861878630652117"
+    },
+    {
+      "article_id": "507910001",
+      "recommendation_score": "0.48013794488180633"
+    },
+    {
+      "article_id": "680374002",
+      "recommendation_score": "0.4795077702797065"
+    },
+    {
+      "article_id": "537346026",
+      "recommendation_score": "0.4765109009152714"
+    },
+    {
+      "article_id": "562245001",
+      "recommendation_score": "0.47638909581337835"
+    },
+    {
+      "article_id": "639192002",
+      "recommendation_score": "0.4728713700461412"
+    },
+    {
+      "article_id": "662980001",
+      "recommendation_score": "0.4720128257133807"
+    },
+    {
+      "article_id": "660599001",
+      "recommendation_score": "0.47151208705622366"
+    },
+    {
+      "article_id": "685284003",
+      "recommendation_score": "0.46739680301690484"
+    },
+    {
+      "article_id": "667491002",
+      "recommendation_score": "0.464781386754282"
+    },
+    {
+      "article_id": "573085010",
+      "recommendation_score": "0.463236604332667"
+    },
+    {
+      "article_id": "671505004",
+      "recommendation_score": "0.4626091735434014"
+    },
+    {
+      "article_id": "573085001",
+      "recommendation_score": "0.4618655199335666"
+    },
+    {
+      "article_id": "637549005",
+      "recommendation_score": "0.46106923812903067"
+    }
+  ],
+
+  "480d390cb43bef9ab64a83d2f3dac7a6ec0057275d821b08771141911099f36c": [
+    {
+      "article_id": "573085020",
+      "recommendation_score": "0.5414955358363122"
+    },
+    {
+      "article_id": "637673005",
+      "recommendation_score": "0.504677915977916"
+    },
+    {
+      "article_id": "108775015",
+      "recommendation_score": "0.500917069305271"
+    },
+    {
+      "article_id": "565379001",
+      "recommendation_score": "0.49822837530236186"
+    },
+    {
+      "article_id": "662888002",
+      "recommendation_score": "0.49728061772515125"
+    },
+    {
+      "article_id": "687424002",
+      "recommendation_score": "0.4929067296630043"
+    },
+    {
+      "article_id": "685687004",
+      "recommendation_score": "0.48978326755741797"
+    },
+    {
+      "article_id": "399256001",
+      "recommendation_score": "0.4883270727638364"
+    },
+    {
+      "article_id": "685687001",
+      "recommendation_score": "0.48684928807360894"
+    },
+    {
+      "article_id": "692454002",
+      "recommendation_score": "0.48257666381735037"
+    },
+    {
+      "article_id": "507910001",
+      "recommendation_score": "0.4782755804039485"
+    },
+    {
+      "article_id": "680374002",
+      "recommendation_score": "0.4781374168124955"
+    },
+    {
+      "article_id": "524825013",
+      "recommendation_score": "0.47310556771356227"
+    },
+    {
+      "article_id": "660599001",
+      "recommendation_score": "0.47021598384006746"
+    },
+    {
+      "article_id": "662980001",
+      "recommendation_score": "0.4672445325194594"
+    },
+    {
+      "article_id": "685284003",
+      "recommendation_score": "0.46700291221191387"
+    },
+    {
+      "article_id": "673677002",
+      "recommendation_score": "0.4667813530562571"
+    },
+    {
+      "article_id": "685687002",
+      "recommendation_score": "0.4655970410826976"
+    },
+    {
+      "article_id": "667491002",
+      "recommendation_score": "0.46452590687515616"
+    },
+    {
+      "article_id": "671505004",
+      "recommendation_score": "0.4637207343878379"
+    }
+  ],
+
+  "4742a624cfbac399d06876fa0afa3f023acfba0ff73157d61f66da463d106e10": [
+    {
+      "article_id": "573085020",
+      "recommendation_score": "0.5285691540099114"
+    },
+    {
+      "article_id": "637673005",
+      "recommendation_score": "0.49806294630714343"
+    },
+    {
+      "article_id": "108775015",
+      "recommendation_score": "0.4976164285732211"
+    },
+    {
+      "article_id": "662888002",
+      "recommendation_score": "0.4968144177608664"
+    },
+    {
+      "article_id": "565379001",
+      "recommendation_score": "0.49217252700190484"
+    },
+    {
+      "article_id": "687424002",
+      "recommendation_score": "0.4916813756993312"
+    },
+    {
+      "article_id": "399256001",
+      "recommendation_score": "0.48541366329232455"
+    },
+    {
+      "article_id": "692454002",
+      "recommendation_score": "0.4819180142386598"
+    },
+    {
+      "article_id": "685687001",
+      "recommendation_score": "0.4816074462507463"
+    },
+    {
+      "article_id": "680374002",
+      "recommendation_score": "0.47295422521503383"
+    },
+    {
+      "article_id": "507910001",
+      "recommendation_score": "0.47142114162221027"
+    },
+    {
+      "article_id": "660599001",
+      "recommendation_score": "0.46905263733341224"
+    },
+    {
+      "article_id": "673677002",
+      "recommendation_score": "0.46601434968394556"
+    },
+    {
+      "article_id": "662980001",
+      "recommendation_score": "0.4659768005846736"
+    },
+    {
+      "article_id": "685284003",
+      "recommendation_score": "0.46347860728551843"
+    },
+    {
+      "article_id": "671505004",
+      "recommendation_score": "0.4614406581672063"
+    },
+    {
+      "article_id": "667491002",
+      "recommendation_score": "0.4611685381674993"
+    },
+    {
+      "article_id": "637549005",
+      "recommendation_score": "0.45953799868705486"
+    }
+  ]
+}
