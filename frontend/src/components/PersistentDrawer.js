@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
@@ -15,7 +15,7 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 
 import ToggleButton from "./ToggleButton";
 import Chat from "./Chat";
-import Cart from "./Cart";
+// import Cart from "./Cart";
 
 const PersistentDrawer = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -54,7 +54,7 @@ const PersistentDrawer = () => {
           <div className="bg-white rounded-3xl h-[95%] lg:h-full">
             <div className="grid md:grid-cols-12 h-full">
               <div className="md:col-span-12 2xl:col-span-12">
-                <div className="h-full md:border-r-2">
+                <div className="h-full">
                   <div className="flex bg-white rounded-3xl">
                     <div className="flex w-full justify-between">
                       <div className="text-xl text-black font-semibold ml-8 mt-4">
