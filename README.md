@@ -123,7 +123,7 @@ The model took around 20 mins to run fully on Kaggle provided Nvidia P100 GPU, g
 
 It was calcualted like this:
 
-![Map@12](images\map12.png)
+![Map@12](images/map12.png)
 
 It is a sort of manual, time-aware collaborative filtering method - what customers with similar purchase interests were purchased in the past week - so it includes trend information as well.
 
