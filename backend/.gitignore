@@ -13,3 +13,5 @@ db/config.js
 
 #system
 .DS_Store
+
+data/predictions_1.json

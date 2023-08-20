@@ -94,5 +94,62 @@ We used the output similarity score from the product search service to calculate
 
 ## Personalized Recommendation System
 
+The goal of this system is to recommend products based on user past purchase history. This is the most valuable data to us since it describes the user fashion sense and what he actually likes
+### What data to use?
+We used the same [H&M Personalized Fashion Recommendations](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/data) Competition Dataset, which consists of previous transactions, as well as customer and product meta data. The dataset has comprehensive list of 105k articles consisting of all the fashion items. It also has data of about 137k customers and data of around 30 million transactions.  
+### Recommendation Algorithim
+We used a open-source model for [this](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/discussion/324076/) which is a light-weight candidate retrieval method
+
+#### Preprocessing the dataset
+We used cudf to process the data faster. We got week number and week day of all the transactions data. The data was recorded from 2018 to 2020.
+Then we created pairs of articles that are commonly bought together by customers. This was done for only the latest 9 weeks and for each week we find 5 "pairs" for each article.
+
+#### Retrieval/Features function
+Then a function generates and enhances candidate sets for modeling tasks. It creates candidates based on customer behavior, filters and adds features, incorporates article-related information, and handles feature selection, ultimately producing a dataframe of candidates with associated features. Multiple feature engineering was done here
+- Customer hierarchy-based features
+##### Article-Related Features
+- Maximum price
+- Last week's price ratio
+
+##### Customer-Related Features
+- Average max price
+- Average last week's price
+- Average price ratio
+- Average sales channel
+- Transaction counts
+- Unique transaction counts
+- Gender representation based on article categories
+
+##### Article-Related Transaction Features
+- Average sales channel
+- Transaction counts
+- Unique customer counts
+
+##### Article-Specific Customer Age Features
+- Average customer age for each article
+
+##### Lag-Based Features
+- Count of unique customers for each article within specified lag days
+
+##### Rebuy-Related Features
+- Rebuy count ratio (average count of rebuys)
+- Rebuy ratio (proportion of articles rebought)
+
+#### Scoring the model
+Next we created a function which generates predictions for top 12 articles for each customer and compares to ground truth. We used LightGBM Ranker model to train of the whole dataset. It was chosen for recommendation tasks due to its specialization in ranking items for users, direct optimization for ranking metrics like Mean Average Precision (MAP), and efficiency in handling large datasets. It captures personalized preferences and offers efficient, customizable ranking solutions for recommendation systems.
+Features to feed to LGBMRanker:
+- The strength of the "match" (i.e. how many/what percentage of customers the "pair" was based on)
+- The "source" of the pair (i.e. how recently the original article was purchased, how many times it was purchased)
+
+#### Results
+The model took around 20 mins to run fully on Nvidia P100 GPU, giving us a 
+- Train AUC 0.7604
+- Train score: 0.06767
+- MAP@12: 0.02884
+
+It was calcualted like this:
+![Map@12](images\map12.png)
+
+It is a sort of manual, time-aware collaborative filtering method - what customers with similar purchase interests were purchased in the past week - so it includes trend information as well
 ## GPT Integration
 
