@@ -1,40 +1,5 @@
 # Fashion Recommender AI Assistant
 
-ideation:
-
-- categorization of problem statement into sub problems
-  - Trendiness calculator
-  - personalised recommendation system
-  - Combining prev systems
-  - making a conversational system integrated with other systems
-- a description of each sub problem
-  - Goal(s) for that sub-problem
-  - Pre-req research for each sub-problem
-  - how we achieved the goals, basically our process for solving it
-    - Higher level overview
-    - Technical parts explanation (if required)
-
-outline:
-
-- Things to know before reading ahead
-  - h&m data set is our supposed "store"
-
-- categorization of problem statement into sub problems (just mention the headlines)
-  - Trendiness calculator
-  - personalised recommendation system
-  - conversational system
-
-[Detailed description of the following sub-problems]
-
-- Trendiness calculator
-  - how to choose what to scrape
-  - The algorithm from scraping to trend_scores
-- personalised recommendation system
-
-Combining prev systems
-
-Making a conversational system
-
 ## Introduction
 
 **Problem Statement**: Conversational Fashion Outfit Generator powered by GenAI
@@ -98,19 +63,22 @@ This was our first time using a major cloud platform, which helped us learn a lo
 
 ## Personalized Recommendation System
 
-The goal of this system is to recommend products based on user past purchase history. This is the most valuable data to us since it describes the user fashion sense and what he actually likes
+The goal of this system is to recommend products based on user past purchase history. This is the most valuable data to us since it describes the user fashion sense and what they actually like.
+
 ### What data to use?
-We used the same [H&M Personalized Fashion Recommendations](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/data) Competition Dataset, which consists of previous transactions, as well as customer and product meta data. The dataset has comprehensive list of 105k articles consisting of all the fashion items. It also has data of about 137k customers and data of around 30 million transactions.  
+We used the same [H&M Personalized Fashion Recommendations](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/data) competition dataset, which consists of previous transactions, as well as customer and product data. The dataset has comprehensive list of 105k articles consisting of all the fashion items. It also has data of about 137k customers and data of around 30 million transactions. 
+
 ### Recommendation Algorithim
-We used a open-source model for [this](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/discussion/324076/) which is a light-weight candidate retrieval method
+We used an open-source model for [this](https://www.kaggle.com/competitions/h-and-m-personalized-fashion-recommendations/discussion/324076/) which is a light-weight candidate retrieval method.
 
 #### Preprocessing the dataset
 We used cudf to process the data faster. We got week number and week day of all the transactions data. The data was recorded from 2018 to 2020.
+
 Then we created pairs of articles that are commonly bought together by customers. This was done for only the latest 9 weeks and for each week we find 5 "pairs" for each article.
 
 #### Retrieval/Features function
-Then a function generates and enhances candidate sets for modeling tasks. It creates candidates based on customer behavior, filters and adds features, incorporates article-related information, and handles feature selection, ultimately producing a dataframe of candidates with associated features. Multiple feature engineering was done here
-- Customer hierarchy-based features
+Then a function generates and enhances candidate sets for modeling tasks. It creates candidates based on customer behavior, filters and adds features, incorporates article-related information, and handles feature selection, ultimately producing a dataframe of candidates with associated features. Feature engineering was done for the following features:
+
 ##### Article-Related Features
 - Maximum price
 - Last week's price ratio
@@ -141,20 +109,24 @@ Then a function generates and enhances candidate sets for modeling tasks. It cre
 
 #### Scoring the model
 Next we created a function which generates predictions for top 12 articles for each customer and compares to ground truth. We used LightGBM Ranker model to train of the whole dataset. It was chosen for recommendation tasks due to its specialization in ranking items for users, direct optimization for ranking metrics like Mean Average Precision (MAP), and efficiency in handling large datasets. It captures personalized preferences and offers efficient, customizable ranking solutions for recommendation systems.
+
 Features to feed to LGBMRanker:
+
 - The strength of the "match" (i.e. how many/what percentage of customers the "pair" was based on)
 - The "source" of the pair (i.e. how recently the original article was purchased, how many times it was purchased)
 
 #### Results
-The model took around 20 mins to run fully on Nvidia P100 GPU, giving us a 
+The model took around 20 mins to run fully on Kaggle provided Nvidia P100 GPU, giving us:
 - Train AUC 0.7604
 - Train score: 0.06767
 - MAP@12: 0.02884
 
 It was calcualted like this:
+
 ![Map@12](images\map12.png)
 
-It is a sort of manual, time-aware collaborative filtering method - what customers with similar purchase interests were purchased in the past week - so it includes trend information as well
+It is a sort of manual, time-aware collaborative filtering method - what customers with similar purchase interests were purchased in the past week - so it includes trend information as well.
+
 ## GPT Integration
 
 So we obvioiusly used OpenAI chat based GPT models. We tried both `gpt-3.5-turbo-0613` and `gpt-4-0613` but settled with `gpt-3.5-turbo-0613` because of its higher speed, and lower cost benefits.
