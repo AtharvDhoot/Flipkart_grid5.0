@@ -100,7 +100,7 @@ This was our first time using a major cloud platform, which helped us learn a lo
 
 ## GPT Integration
 
-So we obvioiusly used OpenAI chat based GPT models. We tried both `gpt-3.5` and `gpt-4` but settled with `gpt-3.5` because of its higher speed, and lower cost benefits.
+So we obvioiusly used OpenAI chat based GPT models. We tried both `gpt-3.5-turbo-0613` and `gpt-4-0613` but settled with `gpt-3.5-turbo-0613` because of its higher speed, and lower cost benefits.
 
 We read up OpenAI's docs for tips on writing great prompts and using their models to call functions. Eventually we came up with the following solution:
 
