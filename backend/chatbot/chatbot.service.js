@@ -1,8 +1,12 @@
+const fs = require("fs");
+
 const { TrendingItemFinderTool } = require("./tools");
 
 const { initializeAgentExecutorWithOptions } = require("langchain/agents");
 const { ChatOpenAI } = require("langchain/chat_models/openai");
 const { ConversationSummaryBufferMemory } = require("langchain/memory");
+
+const { writeObjectToFile } = require("../utils");
 
 const sessions = {};
 const tools = [new TrendingItemFinderTool()];
@@ -17,10 +21,12 @@ async function clearSession(req, res, next) {
 }
 
 async function ChatBot(req, res, next) {
-  const { input, sess_id } = req.body;
+  const { input, sess_id, user_id } = req.body;
 
   console.log("IHNPUT::: ", input);
   try {
+    writeObjectToFile("./data/id.json", { user_id });
+
     let memory;
     if (sessions[sess_id]) {
       memory = sessions[sess_id];
@@ -79,7 +85,7 @@ async function ChatBot(req, res, next) {
     console.log("INITIALISATION DONE>>>", output);
     return res.json({ output });
   } catch (err) {
-    console.error(err);
+    console.log("ERRRR::::", err);
     res.status(500).json({ error: "Server error" });
   }
   return null;

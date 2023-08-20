@@ -20,6 +20,8 @@ const {
   createStructuredOutputChainFromZod,
 } = require("langchain/chains/openai_functions");
 
+const { readObjectFromFile } = require("../utils");
+
 function getHmSectionName(gptSection) {
   const input = gptSection.toLowerCase();
 
@@ -43,6 +45,15 @@ function getHmSectionName(gptSection) {
     default:
       return "all";
   }
+}
+
+let userPrefs;
+function getUserPreferences() {
+  if (userPrefs) return userPrefs;
+
+  userPrefs = readObjectFromFile("./data/predictions_1.json");
+
+  return userPrefs;
 }
 
 class TrendingItemFinderTool extends Tool {
@@ -163,9 +174,6 @@ class TrendingItemFinderTool extends Tool {
         )
       );
     }
-    // for (const type of types) {
-    //   mask.push(request.output.categories.includes(type));
-    // }
 
     const requestedProducts = dfd.query(mask);
 
@@ -173,15 +181,46 @@ class TrendingItemFinderTool extends Tool {
       return "Could not find any products requested.";
     }
 
-    // here
+    requestedProducts.resetIndex({ inplace: true });
 
-    requestedProducts.sortValues("trend_score", {
+    // here
+    const user_id = readObjectFromFile("./data/id.json").user_id;
+    const prefs = getUserPreferences();
+    console.log("ID:::", user_id);
+    const recommendedProducts = prefs[user_id];
+    const isRecommended = requestedProducts["product_code"].map(
+      (product_code) =>
+        recommendedProducts.includes(`0${product_code}`) ? 1 : 0
+    );
+    // console.log(isRecommended);
+    requestedProducts.addColumn("is_recommended", isRecommended, {
+      inplace: true,
+    });
+
+    const purchasability = [];
+
+    requestedProducts.apply(
+      function (row) {
+        const n = row.length;
+        purchasability.push(row[n - 1] + row[n - 2]);
+        return 0;
+      },
+      { axis: 1 }
+    );
+
+    requestedProducts.addColumn("purchasibility", purchasability, {
+      inplace: true,
+    });
+
+    requestedProducts.sortValues("purchasibility", {
       ascending: false,
       inplace: true,
     });
 
+    requestedProducts.print();
+
     // danfo.toCSV(requestedProducts, { filePath: "./out.csv" });
-    requestedProducts.resetIndex({ inplace: true });
+
     // requestedProducts.print();
     const sortedProductIds = requestedProducts["product_code"].dropDuplicates();
     // console.log(sortedProductIds.$index);
